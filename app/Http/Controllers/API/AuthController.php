@@ -15,7 +15,7 @@ class AuthController extends Controller
     {
         return response()->json(['user' => $request->user()]);
     }
-    
+
     public function register(Request $request)
     {
         $validatedData = $request->validate([
@@ -64,7 +64,7 @@ class AuthController extends Controller
     public function destroy(Request $request)
     {
         $user = $request->user();
-        Auth::logout();
+        //Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         $user->delete();
@@ -74,7 +74,6 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

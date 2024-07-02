@@ -2,21 +2,45 @@
   <div id="app">
     <nav>
       <router-link to="/">Home</router-link>
-      <router-link to="/login">Login</router-link>
-      <router-link to="/register">Register</router-link>
-      <!-- <router-link to="/profile">Profile</router-link> -->
-      <!-- <router-link to="/create-post">Create Post</router-link> -->
-      <!-- <router-link  v-if="isAuthenticated" @click="handleLogout">Logout</router-link> -->
+      <router-link v-if="!isAuthenticated" to="/login">Login</router-link>
+      <router-link v-if="!isAuthenticated" to="/register">Register</router-link>
+      <router-link v-if="isAuthenticated" to="/profile">Profile</router-link>
+      <router-link v-if="isAuthenticated" to="/create-post">Create Post</router-link>
+      <button v-if="isAuthenticated" @click="logout">Logout</button>
     </nav>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import { computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from './store/auth';
 
 export default {
+  setup() {
+    const authStore = useAuthStore();
+    const router = useRouter();
 
-}
+    onMounted(() => {
+      authStore.checkAuth();
+    });
+
+    const logout = async () => {
+      try {
+        await authStore.logout();
+        router.push({ name: 'Home' });
+      } catch (error) {
+        console.error('Logout failed:', error);
+      }
+    };
+
+    return {
+      isAuthenticated: computed(() => authStore.isAuthenticated),
+      logout,
+    };
+  },
+};
 </script>
 
   <style>
@@ -24,7 +48,7 @@ export default {
     max-width: 800px;
     margin: 0 auto;
   }
-  
+
   nav {
     display: flex;
     gap: 10px;
@@ -33,7 +57,7 @@ export default {
     padding: 10px;
     border-radius: 5px;
   }
-  
+
   nav a{
     color: white;
     text-decoration: none;
@@ -41,11 +65,11 @@ export default {
     border-radius: 5px;
     transition: background-color 0.3s;
   }
-  
+
   nav a:hover {
     background-color: #0056b3;
   }
-  
+
   button {
     background-color: #0056b3;
     color: white;
@@ -55,15 +79,15 @@ export default {
     cursor: pointer;
     transition: background-color 0.3s;
   }
-  
+
   button:hover {
     background-color: #003f7f;
   }
-  
+
   button:focus {
     outline: none;
   }
-  
+
   button:active {
     background-color: #003f7f;
   }
