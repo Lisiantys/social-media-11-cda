@@ -30,8 +30,7 @@ class UpdateUserRequest extends FormRequest
                 'sometimes', 'required', ' confirmed', Password::min(8)->mixedCase()->letters()->numbers()->symbols()
             ],
             'image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
-            'role_id' => 'required|exists:roles,id'
-        ];
+         ];
     }
 
     public function messages()
@@ -48,8 +47,6 @@ class UpdateUserRequest extends FormRequest
             'email.unique' => 'Cette adresse e-mail est déjà utilisée.',
             'password.string' => 'Le mot de passe doit être une chaîne de caractères.',
             'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',
-            'role_id.required' => 'Le rôle est obligatoire.',
-            'role_id.exists' => 'Le rôle sélectionné n’est pas valide.',
             'image.image' => 'Le fichier doit être une image.',
         ];
     }
