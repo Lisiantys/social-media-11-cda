@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\PostController;
+use App\Http\Controllers\API\UserController;
 
 // Public routes
 
@@ -13,18 +14,20 @@ Route::get('posts/{post}', [PostController::class, 'show']); //OK
 
 
 
-Route::post('login', [AuthController::class, 'login']);
-Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']); //OK
+Route::post('register', [AuthController::class, 'register']); //OK
 
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);//OK
 
+    Route::put('user', [UserController::class, 'update']); // Aucun donnée envoyé
+    Route::delete('user', [UserController::class, 'destroy']); //OK
+
+
     Route::get('user', [AuthController::class, 'user']);
-    Route::get('user', [AuthController::class, 'user']);
-    Route::put('user', [AuthController::class, 'update']);
-    Route::delete('user', [AuthController::class, 'destroy']);
+
     Route::post('posts', [PostController::class, 'store']);
     Route::put('posts/{post}', [PostController::class, 'update']);
     Route::delete('posts/{post}', [PostController::class, 'destroy']);

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\User;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -55,32 +58,47 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(Request $request)
     {
-            if ($request->has('password')) {
-                $request['password'] = Hash::make($request->password);
+        $user = $request->user();
+
+        Log::info('Received request to update user:', $request->all());
+
+        try {
+            $validatedData = $request->validate([
+                'pseudo' => ['sometimes', 'string', 'max:255', Rule::unique('users')->ignore($user->id)],
+                'email' => ['sometimes', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+                'password' => ['sometimes', 'string', 'min:8'],
+            ]);
+
+            Log::info('Validated data:', $validatedData);
+
+            if ($request->filled('password')) {
+                $validatedData['password'] = Hash::make($validatedData['password']);
             }
 
-            $user->update($request->all());
+            Log::info('Updating user with data:', $validatedData);
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Utilisateur mis à jour avec succès',
-                'user' => $user
-            ]);
+            $user->update($validatedData);
+
+            return response()->json(['message' => 'Profil mis à jour avec succès', 'user' => $user]);
+        } catch (ValidationException $e) {
+            Log::error('Validation failed:', $e->errors());
+            return response()->json(['errors' => $e->errors()], 422);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
-    {
-        $user->delete();
+     public function destroy(Request $request)
+     {
+         $user = $request->user();
+         //Auth::logout();
+         $request->session()->invalidate();
+         $request->session()->regenerateToken();
+         $user->delete();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Utilisateur supprimé avec succès',
-            'user' => $user
-        ]);
-    }
+         return response()->json(['message' => 'Utilisateur supprimé avec succès']);
+     }
 }

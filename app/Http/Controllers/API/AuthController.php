@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
@@ -40,36 +43,6 @@ class AuthController extends Controller
         }
 
         return response()->json(['message' => 'Identifiants invalides'], 401);
-    }
-
-    public function update(Request $request)
-    {
-        $user = $request->user();
-
-        $validatedData = $request->validate([
-            'pseudo' => ['sometimes', 'string', 'max:255'],
-            'email' => ['sometimes', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'password' => ['sometimes', 'string', 'min:8'],
-        ]);
-
-        if ($request->filled('password')) {
-            $validatedData['password'] = Hash::make($validatedData['password']);
-        }
-
-        $user->update($validatedData);
-
-        return response()->json(['message' => 'Profil mis à jour avec succès', 'user' => $user]);
-    }
-
-    public function destroy(Request $request)
-    {
-        $user = $request->user();
-        //Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        $user->delete();
-
-        return response()->json(['message' => 'Utilisateur supprimé avec succès']);
     }
 
     public function logout(Request $request)

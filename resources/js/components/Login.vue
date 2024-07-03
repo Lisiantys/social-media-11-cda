@@ -8,7 +8,7 @@
       </form>
     </div>
   </template>
-  
+
   <script>
 import { ref } from 'vue'
 import axios from 'axios'
@@ -45,18 +45,18 @@ export default {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-  
+
   h2 {
     color: #007BFF;
     margin-bottom: 20px;
   }
-  
+
   form {
     display: flex;
     flex-direction: column;
     gap: 15px;
   }
-  
+
   input {
     padding: 10px;
     font-size: 16px;
@@ -64,12 +64,12 @@ export default {
     border-radius: 5px;
     transition: border-color 0.3s;
   }
-  
+
   input:focus {
     border-color: #007BFF;
     outline: none;
   }
-  
+
   button {
     padding: 10px 20px;
     font-size: 16px;
@@ -80,17 +80,16 @@ export default {
     cursor: pointer;
     transition: background-color 0.3s;
   }
-  
+
   button:hover {
     background-color: #0056b3;
   }
-  
+
   button:focus {
     outline: none;
   }
-  
+
   button:active {
     background-color: #003f7f;
   }
   </style>
-  
