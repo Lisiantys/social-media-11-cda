@@ -15,8 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('user')->orderBy('created_at', 'desc')->get();
-        return response()->json(['posts' => $posts]);
+        $perPage = 5; // Nombre de posts par page
+        $posts = Post::with('user')->orderBy('created_at', 'desc')->paginate($perPage);
+        return response()->json($posts);
     }
 
     /**

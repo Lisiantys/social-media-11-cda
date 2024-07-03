@@ -1,11 +1,11 @@
 <template>
     <div>
-      <h2>Register</h2>
+      <h2>S'enregistrer</h2>
       <form @submit.prevent="register">
         <input type="text" v-model="form.pseudo" placeholder="Pseudo" required />
         <input type="email" v-model="form.email" placeholder="Email" required />
         <input type="password" v-model="form.password" placeholder="Password" required />
-        <button type="submit">Register</button>
+        <button type="submit">Valider</button>
       </form>
       <div v-if="errors.length" class="errors">
       <ul>
@@ -14,7 +14,7 @@
     </div>
     </div>
   </template>
-  
+
   <script>
 import { ref } from 'vue'
 import axios from 'axios'
@@ -54,7 +54,7 @@ export default {
   }
 }
 </script>
-  
+
   <style scoped>
 .auth-container {
   max-width: 400px;

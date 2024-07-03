@@ -22,13 +22,15 @@ Route::post('register', [AuthController::class, 'register']); //OK
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);//OK
 
-    Route::put('user', [UserController::class, 'update']); // Aucun donnée envoyé
+    //USERS ROUTES
+    Route::put('user', [UserController::class, 'update']); // OK
     Route::delete('user', [UserController::class, 'destroy']); //OK
 
+    //POSTS ROUTES
+    Route::post('posts', [PostController::class, 'store']); //OK
+    Route::put('posts/{post}', [PostController::class, 'update']);//OK
+    Route::delete('posts/{post}', [PostController::class, 'destroy']); //OK
 
     Route::get('user', [AuthController::class, 'user']);
 
-    Route::post('posts', [PostController::class, 'store']);
-    Route::put('posts/{post}', [PostController::class, 'update']);
-    Route::delete('posts/{post}', [PostController::class, 'destroy']);
 });

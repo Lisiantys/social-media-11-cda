@@ -1,13 +1,13 @@
 <template>
     <div class="profile-container">
-      <h2>User Profile</h2>
+      <h2>Profile</h2>
       <form @submit.prevent="updateProfile">
         <input type="text" v-model="form.pseudo" placeholder="Pseudo" required />
         <input type="email" v-model="form.email" placeholder="Email" required />
         <input type="password" v-model="form.password" placeholder="New Password" />
         <div class="button-group">
-          <button type="submit">Update Profile</button>
-          <button type="button" @click="deleteUser">Delete Account</button>
+          <button type="submit">Mettre à jour</button>
+          <button type="button" @click="deleteUser">Supprimer le compte</button>
         </div>
       </form>
       <div v-if="errors.length" class="errors">

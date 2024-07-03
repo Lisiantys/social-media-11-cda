@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Home</router-link>
-      <router-link v-if="!isAuthenticated" to="/login">Login</router-link>
-      <router-link v-if="!isAuthenticated" to="/register">Register</router-link>
+      <router-link to="/">Accueil</router-link>
+      <router-link v-if="!isAuthenticated" to="/login">Connexion</router-link>
+      <router-link v-if="!isAuthenticated" to="/register">Inscription</router-link>
       <router-link v-if="isAuthenticated" to="/profile">Profile</router-link>
-      <router-link v-if="isAuthenticated" to="/create-post">Create Post</router-link>
-      <button v-if="isAuthenticated" @click="logout">Logout</button>
+      <router-link v-if="isAuthenticated" to="/create-post">Créer un post</router-link>
+      <button v-if="isAuthenticated" @click="logout">Déconnexion</button>
     </nav>
     <router-view></router-view>
   </div>

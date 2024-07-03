@@ -1,10 +1,10 @@
 <template>
     <div>
-      <h2>Login</h2>
+      <h2>Connexion</h2>
       <form @submit.prevent="login">
         <input type="email" v-model="form.email" placeholder="Email" required />
         <input type="password" v-model="form.password" placeholder="Password" required />
-        <button type="submit">Login</button>
+        <button type="submit">Valider</button>
       </form>
     </div>
   </template>
