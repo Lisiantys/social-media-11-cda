@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\PostController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\CommentController;
 
 // Public routes
 
@@ -32,5 +33,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('posts/{post}', [PostController::class, 'destroy']); //OK
 
     Route::get('user', [AuthController::class, 'user']);
+
+    // COMMENTS ROUTES
+    Route::get('comments', [CommentController::class, 'index']);
+    Route::post('comments', [CommentController::class, 'store']);
+    Route::get('comments/{comment}', [CommentController::class, 'show']);
+    Route::put('comments/{comment}', [CommentController::class, 'update']);
+    Route::delete('comments/{comment}', [CommentController::class, 'destroy']);
 
 });

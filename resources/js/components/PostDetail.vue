@@ -4,52 +4,66 @@
         <h2>{{ post.content }}</h2>
         <div class="post-meta">
           <p><strong>Tags:</strong> {{ post.tags }}</p>
-          <p><strong>Publié par:</strong> {{ post.user.pseudo }}</p>
+          <p><strong>Posted by:</strong> {{ post.user.pseudo }}</p>
           <p><strong>Email:</strong> {{ post.user.email }}</p>
-          <p><strong>Le:</strong> {{ new Date(post.created_at).toLocaleDateString() }}</p>
+          <p><strong>Posted on:</strong> {{ new Date(post.created_at).toLocaleDateString() }}</p>
         </div>
       </div>
       <div class="post-actions">
         <button @click="goBack">Retour</button>
-        <button @click="editPost">Modifier</button>
-        <button @click="deletePost">Supprimer</button>
+        <button v-if="isAuthenticated" @click="editPost">Modifier</button>
+        <button v-if="isAuthenticated" @click="deletePost">Supprimer</button>
       </div>
       <PostForm v-if="isEditing" :post="post" @postUpdated="fetchPost" />
+      <CommentList :comments="post.comments" />
+      <button v-if="isAuthenticated" @click="showCommentForm = !showCommentForm">Créer un commentaire</button>
+      <form v-if="showCommentForm" @submit.prevent="submitComment">
+        <textarea v-model="newComment.content" placeholder="Votre commentaire" required></textarea>
+        <button type="submit">Envoyer</button>
+      </form>
     </div>
   </template>
 
   <script>
-  import { ref, onMounted } from 'vue'
-  import { useRoute, useRouter } from 'vue-router'
-  import axios from 'axios'
-  import PostForm from './PostForm.vue'
+  import { ref, onMounted } from 'vue';
+  import { useRoute, useRouter } from 'vue-router';
+  import axios from 'axios';
+  import PostForm from './PostForm.vue';
+  import CommentList from './CommentList.vue';
+  import { useAuthStore } from '@/store/auth';
 
   export default {
     components: {
-      PostForm
+      PostForm,
+      CommentList
     },
     setup() {
-      const post = ref(null)
-      const isEditing = ref(false)
-      const route = useRoute()
-      const router = useRouter()
+      const post = ref(null);
+      const isEditing = ref(false);
+      const route = useRoute();
+      const router = useRouter();
+      const authStore = useAuthStore();
+      const showCommentForm = ref(false);
+      const newComment = ref({
+        content: ''
+      });
 
       const fetchPost = async () => {
         try {
-          const response = await axios.get(`/api/posts/${route.params.id}`)
-          post.value = response.data.post
+          const response = await axios.get(`/api/posts/${route.params.id}`);
+          post.value = response.data.post;
         } catch (error) {
-          console.error('Error fetching post:', error)
+          console.error('Error fetching post:', error);
         }
-      }
+      };
 
       const goBack = () => {
-        router.push('/')
-      }
+        router.push('/');
+      };
 
       const editPost = () => {
-        isEditing.value = true
-      }
+        isEditing.value = true;
+      };
 
       const deletePost = async () => {
         try {
@@ -57,18 +71,51 @@
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`
             }
-          })
-          router.push('/')
+          });
+          router.push('/');
         } catch (error) {
-          console.error('Error deleting post:', error)
+          console.error('Error deleting post:', error);
         }
-      }
+      };
 
-      onMounted(fetchPost)
+      const submitComment = async () => {
+        try {
+          await axios.post(`/api/comments`, {
+            content: newComment.value.content,
+            post_id: post.value.id,
+            user_id: authStore.user.id
+          }, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          });
+          showCommentForm.value = false;
+          newComment.value.content = '';
+          fetchPost();
+        } catch (error) {
+          console.error('Error creating comment:', error);
+        }
+      };
 
-      return { post, isEditing, fetchPost, goBack, editPost, deletePost }
+      onMounted(() => {
+        fetchPost();
+        authStore.checkAuth();
+      });
+
+      return {
+        post,
+        isEditing,
+        fetchPost,
+        goBack,
+        editPost,
+        deletePost,
+        showCommentForm,
+        newComment,
+        submitComment,
+        isAuthenticated: authStore.isAuthenticated
+      };
     }
-  }
+  };
   </script>
 
   <style scoped>
@@ -120,5 +167,48 @@
 
   button:active {
     background-color: #003f7f;
+  }
+
+  form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+  }
+
+  textarea:focus {
+    border-color: #007BFF;
+    outline: none;
+  }
+
+  form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  form button:hover {
+    background-color: #218838;
+  }
+
+  form button:focus {
+    outline: none;
+  }
+
+  form button:active {
+    background-color: #1e7e34;
   }
   </style>
