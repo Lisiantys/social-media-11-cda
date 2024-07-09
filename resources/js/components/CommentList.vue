@@ -67,11 +67,7 @@
 
       const deleteComment = async (commentId) => {
         try {
-          await axios.delete(`/api/comments/${commentId}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-          });
+          await axios.delete(`/api/comments/${commentId}`);
           // Remove the deleted comment from the local list
           localComments.value = localComments.value.filter(c => c.id !== commentId);
         } catch (error) {

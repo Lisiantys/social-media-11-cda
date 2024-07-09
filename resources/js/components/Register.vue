@@ -31,8 +31,6 @@ export default {
 
     const register = async () => {
       try {
-        // Obtenir le cookie CSRF avant d'envoyer la requête d'inscription
-        //await axios.get('/sanctum/csrf-cookie')
         const response = await axios.post('api/register', form.value)
         alert(response.data.message)
         errors.value = []
