@@ -16,7 +16,7 @@ class PostController extends Controller
     public function index()
     {
         $perPage = 5; // Nombre de posts par page
-        $posts = Post::with('user')->orderBy('created_at', 'desc')->paginate($perPage);
+        $posts = Post::with('user')->latest()->paginate($perPage);
         return response()->json($posts);
     }
 
@@ -60,6 +60,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        $this->authorize('update', $post);
         $validatedData = $request->validated();
 
         $post->content = $validatedData['content'];
