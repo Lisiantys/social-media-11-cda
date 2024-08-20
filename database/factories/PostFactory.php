@@ -20,8 +20,8 @@ class PostFactory extends Factory
         return [
             'content' => $this->faker->paragraph(),
             'user_id' => rand(1, User::count()),
-            //'image' => 'default_picture_' . rand(1,5) . '.jpg',
             'tags' => $this->faker->words(3, true),
+            'image' => 'images/tree.jpg', // Utilisé comme image de base pour la factory
         ];
     }
 }

@@ -1,16 +1,17 @@
 <template>
+  
     <div v-if="post" class="post-details">
+      <button @click="goBack">Retour</button>
       <div class="post-header">
-        <h2>{{ post.content }}</h2>
+        <img v-if="post.image" :src="`/storage/${post.image}`" alt="Post Image" class="post-image" />
         <div class="post-meta">
           <p><strong>Tags:</strong> {{ post.tags }}</p>
           <p><strong>Posted by:</strong> {{ post.user.pseudo }}</p>
-          <p><strong>Email:</strong> {{ post.user.email }}</p>
           <p><strong>Posted on:</strong> {{ new Date(post.created_at).toLocaleDateString() }}</p>
         </div>
+        <p>{{ post.content }}</p>
       </div>
       <div class="post-actions">
-        <button @click="goBack">Retour</button>
         <button v-if="isAuthenticated" @click="editPost">Modifier</button>
         <button v-if="isAuthenticated" @click="deletePost">Supprimer</button>
       </div>
@@ -132,8 +133,11 @@
     margin-bottom: 20px;
   }
 
-  h2 {
-    margin-bottom: 10px;
+  .post-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    border-radius: 8px;
   }
 
   .post-meta p {
