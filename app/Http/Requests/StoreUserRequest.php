@@ -28,7 +28,6 @@ class StoreUserRequest extends FormRequest
             'password' => [
                 'sometimes', 'required', ' confirmed', Password::min(8)->mixedCase()->letters()->numbers()->symbols()
             ],
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048'
         ];
     }
 

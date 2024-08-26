@@ -16,7 +16,13 @@ class AuthController extends Controller
 
     public function user(Request $request)
     {
-        return response()->json(['user' => $request->user()]);
+        $user = Auth::user();
+
+        if ($user) {
+            return response()->json(['user' => $user]);
+        } else {
+            return response()->json(['message' => 'Utilisateur non authentifié'], 401);
+        }
     }
 
     public function register(Request $request)
@@ -35,12 +41,15 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return response()->json(['message' => 'Connexion réussie']);
+            return response()->json(['message' => 'Connexion réussie', 'user' => Auth::user()]);
         }
+
+        Log::error('Login failed for user: ', $credentials);
 
         return response()->json(['message' => 'Identifiants invalides'], 401);
     }
@@ -48,8 +57,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
         return response()->json(['message' => 'Déconnexion réussie']);
     }
 }

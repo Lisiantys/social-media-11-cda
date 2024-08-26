@@ -16,26 +16,35 @@ const routes = [
     { path: '/create-post', name: 'CreatePost', component: PostForm, meta: { requiresAuth: true } },
   ];
 
-  const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
-    routes,
-  });
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes,
+});
 
-  router.beforeEach(async (to, from, next) => {
-    const authStore = useAuthStore();
-    if (to.matched.some(record => record.meta.requiresAuth)) {
+router.beforeEach(async (to, from, next) => {
+  const authStore = useAuthStore();
+
+  // Si la route nécessite une authentification
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    try {
+      // Vérifie l'état d'authentification
       await authStore.checkAuth();
+
+      // Si l'utilisateur est authentifié, continue
       if (authStore.isAuthenticated) {
         next();
       } else {
+        // Sinon, redirige vers la page de connexion
         next({ name: 'Login' });
       }
-    } else {
-      next();
+    } catch (error) {
+      // En cas d'erreur, redirige vers la page de connexion
+      next({ name: 'Login' });
     }
-  });
+  } else {
+    // Si la route ne nécessite pas d'authentification, continue
+    next();
+  }
+});
 
-export default router
-
-
-
+export default router;

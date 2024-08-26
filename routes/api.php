@@ -12,15 +12,16 @@ use App\Http\Controllers\API\CommentController;
 Route::get('posts', [PostController::class, 'index']); //OK
 Route::get('posts/{post}', [PostController::class, 'show']); //OK
 
-
-
-
+Route::middleware('web')->group(function () {
 Route::post('login', [AuthController::class, 'login']); //OK
 Route::post('register', [AuthController::class, 'register']); //OK
+});
 
 
 // Protected routes
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('user', [AuthController::class, 'user']);
+
     Route::post('logout', [AuthController::class, 'logout']);//OK
 
     //USERS ROUTES
@@ -31,8 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('posts', [PostController::class, 'store']); //OK
     Route::put('posts/{post}', [PostController::class, 'update']);//OK
     Route::delete('posts/{post}', [PostController::class, 'destroy']); //OK
-
-    Route::get('user', [AuthController::class, 'user']);
 
     // COMMENTS ROUTES
     Route::get('comments', [CommentController::class, 'index']);

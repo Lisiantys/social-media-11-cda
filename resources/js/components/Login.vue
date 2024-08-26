@@ -12,6 +12,7 @@
   <script>
 import { ref } from 'vue'
 import axios from 'axios'
+import { useAuthStore } from '../store/auth';
 
 export default {
   setup() {
@@ -20,12 +21,11 @@ export default {
       password: ''
     })
 
+    const authStore = useAuthStore();
+
     const login = async () => {
       try {
-        // Obtenir le cookie CSRF avant d'envoyer la requête de connexion
-        await axios.get('/sanctum/csrf-cookie')
-        const response = await axios.post('/api/login', form.value)
-        alert(response.data.message)
+        authStore.login(form.value);
       } catch (error) {
         console.error('Error during login:', error)
       }
