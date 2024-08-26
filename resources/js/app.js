@@ -4,8 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css"
 
 import { createApp } from "vue"
 
-axios.defaults.withCredentials = true 
-
 import App from "./App.vue"
 
 import router from './routeur'

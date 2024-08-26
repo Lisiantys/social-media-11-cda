@@ -9,15 +9,13 @@ export const useAuthStore = defineStore('auth', {
   }),
   actions: {
     async checkAuth() {
-      if (!this.user) { // Ne fait la requête que si l'utilisateur n'est pas déjà dans l'état
-        try {
-          const response = await axios.get('/api/user');
-          this.user = response.data.user;
-        } catch (error) {
-          this.user = null;
-          if (error.response && error.response.status !== 401) {
-            console.error('Erreur lors de la vérification de l\'authentification :', error);
-          }
+      try {
+        const response = await axios.get('/api/user');
+        this.user = response.data.user;
+      } catch (error) {
+        this.user = null;
+        if (error.response && error.response.status !== 401) {
+          console.error('Erreur lors de la vérification de l\'authentification :', error);
         }
       }
     },

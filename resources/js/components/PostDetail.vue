@@ -100,7 +100,6 @@
 
       onMounted(() => {
         fetchPost();
-        authStore.checkAuth();
       });
 
       return {

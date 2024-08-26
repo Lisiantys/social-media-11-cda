@@ -22,10 +22,6 @@ export default {
     const authStore = useAuthStore();
     const router = useRouter();
 
-    onMounted(() => {
-      authStore.checkAuth();
-    });
-
     const logout = async () => {
       try {
         await authStore.logout();

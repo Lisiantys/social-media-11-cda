@@ -1,8 +1,8 @@
 <template>
     <div class="pagination">
-      <button @click="previousPage" :disabled="currentPage === 1">Précédent</button>
-      <span>Page {{ currentPage }} sur {{ totalPages }}</span>
-      <button @click="nextPage" :disabled="currentPage === totalPages">Suivant</button>
+      <button @click="previousPage" :disabled="currentPage === 1"><</button>
+      <span>{{ currentPage }} / {{ totalPages }}</span>
+      <button @click="nextPage" :disabled="currentPage === totalPages">></button>
     </div>
   </template>
 
@@ -40,6 +40,7 @@
 
   button {
     padding: 10px;
+    border-radius: 100px;
     font-size: 16px;
   }
   </style>

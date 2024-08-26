@@ -27,9 +27,6 @@ router.beforeEach(async (to, from, next) => {
   // Si la route nécessite une authentification
   if (to.matched.some(record => record.meta.requiresAuth)) {
     try {
-      // Vérifie l'état d'authentification
-      await authStore.checkAuth();
-
       // Si l'utilisateur est authentifié, continue
       if (authStore.isAuthenticated) {
         next();
