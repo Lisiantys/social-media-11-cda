@@ -1,18 +1,21 @@
 <template>
     <div class="post-form-container">
         <h2>{{ post ? "Modifier le post" : "Créer un post" }}</h2>
+        <hr>
         <form @submit.prevent="submitForm" class="post-form">
-            <textarea
-                v-model="form.content"
-                placeholder="Contenu"
-                required
-            ></textarea>
+            <h3>Tag :</h3>
             <input
                 type="text"
                 v-model="form.tags"
                 placeholder="Tags"
                 required
             />
+            <h3>Description :</h3>
+            <textarea
+                v-model="form.content"
+                placeholder="Contenu"
+                required
+            ></textarea>
             <button type="submit">
                 {{ post ? "Mettre à jour" : "Valider" }}
             </button>
@@ -73,12 +76,10 @@ export default {
 
 <style scoped>
 .post-form-container {
-    max-width: 600px;
-    margin: 0 auto;
+    margin: 40px auto;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #e6e6e6;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .post-form-container h2 {
@@ -91,6 +92,10 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+
+h3{
+    font-size: 20px;
 }
 
 textarea,

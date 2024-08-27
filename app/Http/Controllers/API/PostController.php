@@ -61,7 +61,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        Gate::authorize('update', $post);
+        $this->authorize('update', $post);
         $validatedData = $request->validated();
 
         $post->content = $validatedData['content'];
@@ -80,7 +80,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        Gate::authorize('delete', $post);
+        $this->authorize('delete', $post);
         $post->delete();
         return response()->json([
             'status' => true,

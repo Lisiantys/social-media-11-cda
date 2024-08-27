@@ -52,6 +52,7 @@ export default {
   h2 {
     color: #007BFF;
     margin-bottom: 20px;
+    text-shadow: 1px 1px 2px black;
   }
 
   form {
