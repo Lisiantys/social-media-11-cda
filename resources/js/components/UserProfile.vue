@@ -38,7 +38,7 @@
           const response = await axios.get('/api/user');
           form.value = { ...response.data.user, password: '' };
         } catch (error) {
-          console.error(error);
+          console.log(error);
         }
       };
 
@@ -55,7 +55,7 @@
           if (error.response && error.response.status === 422) {
             errors.value = Object.values(error.response.data.errors).flat();
           } else {
-            console.error(error);
+            console.log(error);
           }
         }
       };
@@ -66,7 +66,7 @@
           alert(response.data.message);
           router.push('/login');
         } catch (error) {
-          console.error(error);
+          console.log(error);
         }
       };
 

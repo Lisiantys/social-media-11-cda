@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { useRouter } from "vue-router";
 
 import axios from 'axios';
 
@@ -7,6 +6,7 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null,
   }),
+  
   actions: {
     async checkAuth() {
       try {
@@ -38,7 +38,7 @@ export const useAuthStore = defineStore('auth', {
         await axios.post('/api/logout');
         this.user = null;
       } catch (error) {
-        console.error('Logout failed:', error);
+        console.log('Logout failed:', error);
         throw new Error('Logout failed');
       }
     },

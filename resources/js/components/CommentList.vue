@@ -58,7 +58,7 @@
           commentToEdit.value = null;
           editContent.value = '';
         } catch (error) {
-          console.error('Error updating comment:', error);
+          console.log('Error updating comment:', error);
         }
       };
 
@@ -68,7 +68,7 @@
           // Remove the deleted comment from the local list
           localComments.value = localComments.value.filter(c => c.id !== commentId);
         } catch (error) {
-          console.error('Error deleting comment:', error);
+          console.log('Error deleting comment:', error);
         }
       };
 

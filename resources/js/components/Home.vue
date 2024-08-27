@@ -37,7 +37,7 @@
           currentPage.value = response.data.current_page
           totalPages.value = response.data.last_page
         } catch (error) {
-          console.error('Error fetching posts:', error)
+          console.log('Error fetching posts:', error)
         }
       }
 

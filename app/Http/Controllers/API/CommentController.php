@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
+use Illuminate\Support\Facades\Gate;
 
 class CommentController extends Controller
 {
@@ -54,6 +55,8 @@ class CommentController extends Controller
      */
     public function update(UpdateCommentRequest $request, Comment $comment)
     {
+
+        Gate::authorize('update', $comment);
         $comment->update($request->all());
 
         return response()->json([
@@ -68,6 +71,7 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
+        Gate::authorize('delete', $comment);
         $comment->delete();
 
         return response()->json([

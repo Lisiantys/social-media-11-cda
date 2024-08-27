@@ -18,6 +18,7 @@
   <script>
 import { ref } from 'vue'
 import axios from 'axios'
+import { useRouter } from "vue-router"
 
 export default {
   setup() {
@@ -27,23 +28,25 @@ export default {
       password: ''
     })
 
-    const errors = ref([])
+    const errors = ref([]);
+    const router = useRouter();
 
     const register = async () => {
       try {
-        const response = await axios.post('api/register', form.value)
-        alert(response.data.message)
-        errors.value = []
+        const response = await axios.post('api/register', form.value);
+        alert(response.data.message);
+        errors.value = [];
+        router.push('/');
       } catch (error) {
         if (error.response) {
           errors.value = Object.values(error.response.data.errors || { message: error.response.data.message })
-          console.error('Error response data:', error.response.data)
+          console.log('Error response data:', error.response.data)
         } else if (error.request) {
           errors.value = ['No response received from the server.']
-          console.error('Error request data:', error.request)
+          console.log('Error request data:', error.request)
         } else {
           errors.value = [error.message]
-          console.error('Error message:', error.message)
+          console.log('Error message:', error.message)
         }
       }
     }

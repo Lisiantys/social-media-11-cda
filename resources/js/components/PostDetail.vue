@@ -54,7 +54,7 @@
           const response = await axios.get(`/api/posts/${route.params.id}`);
           post.value = response.data.post;
         } catch (error) {
-          console.error('Error fetching post:', error);
+          console.log('Error fetching post:', error);
         }
       };
 
@@ -71,7 +71,7 @@
           await axios.delete(`/api/posts/${route.params.id}`);
           router.push('/');
         } catch (error) {
-          console.error('Error deleting post:', error);
+          console.log('Error deleting post:', error);
         }
       };
 
@@ -86,7 +86,7 @@
           newComment.value.content = '';
           fetchPost();
         } catch (error) {
-          console.error('Error creating comment:', error);
+          console.log('Error creating comment:', error);
         }
       };
 

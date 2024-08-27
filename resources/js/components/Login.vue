@@ -13,6 +13,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useAuthStore } from '../store/auth';
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
@@ -22,12 +23,14 @@ export default {
     })
 
     const authStore = useAuthStore();
+    const router = useRouter();
 
     const login = async () => {
       try {
         authStore.login(form.value);
+        router.push('/');
       } catch (error) {
-        console.error('Error during login:', error)
+        console.log('Error during login:', error)
       }
     }
 
