@@ -64,7 +64,6 @@
         try {
           const response = await axios.delete('/api/user');
           alert(response.data.message);
-          localStorage.removeItem('token');
           router.push('/login');
         } catch (error) {
           console.error(error);

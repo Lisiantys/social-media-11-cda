@@ -39,18 +39,10 @@
         try {
           if (props.post) {
             // Update existing post
-            await axios.put(`/api/posts/${props.post.id}`, form.value, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-              }
-            });
+            await axios.put(`/api/posts/${props.post.id}`, form.value);
           } else {
             // Create new post
-            await axios.post('/api/posts', form.value, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-              }
-            });
+            await axios.post('/api/posts', form.value);
           }
           router.push('/');
         } catch (error) {

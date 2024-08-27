@@ -68,11 +68,7 @@
 
       const deletePost = async () => {
         try {
-          await axios.delete(`/api/posts/${route.params.id}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-          });
+          await axios.delete(`/api/posts/${route.params.id}`);
           router.push('/');
         } catch (error) {
           console.error('Error deleting post:', error);
@@ -85,10 +81,6 @@
             content: newComment.value.content,
             post_id: post.value.id,
             user_id: authStore.user.id
-          }, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
           });
           showCommentForm.value = false;
           newComment.value.content = '';

@@ -3,7 +3,8 @@
       <h3>Commentaires</h3>
       <div v-for="comment in localComments" :key="comment.id" class="comment">
         <p><strong>{{ comment.user.pseudo }}</strong> : {{ comment.content }}</p>
-        <div v-if="isAuthenticated && comment.user.id === userId">
+        <!-- <div v-if="isAuthenticated && comment.user.id === userId"> -->
+        <div v-if="isAuthenticated">
           <button @click="editComment(comment)">Modifier</button>
           <button @click="deleteComment(comment.id)">Supprimer</button>
         </div>
@@ -50,10 +51,6 @@
         try {
           await axios.put(`/api/comments/${commentToEdit.value.id}`, {
             content: editContent.value,
-          }, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
           });
           isEditing.value = false;
           const index = localComments.value.findIndex(c => c.id === commentToEdit.value.id);
