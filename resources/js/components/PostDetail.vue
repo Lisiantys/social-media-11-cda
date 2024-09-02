@@ -128,7 +128,7 @@
     max-width: 100%;
     height: auto;
     margin-bottom: 20px;
-    margin-top: 20px;
+    margin-top: 20cqw;
     border-radius: 8px;
   }
 
